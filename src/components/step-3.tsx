@@ -4,8 +4,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@radix-ui/react-accordion";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import readXlsxFile from "read-excel-file";
 import { Button } from "./ui/button";
 
