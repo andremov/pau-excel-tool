@@ -67,7 +67,7 @@ export default function Step5(props: Step4Props) {
               type: Number as never,
               format: "$ #,##0.00",
             },
-            { value: colF ? formatDate(colF as unknown as Date) : "" },
+            { value: colF ? formatDate(colF as unknown as string | Date) : "" },
             { value: colG ? colG.toString() : "" },
             { value: colH ? colH.toString() : "" },
             // { value: colI ? colI.toString() : "" },

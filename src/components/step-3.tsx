@@ -1,4 +1,9 @@
-import { AssetDataType, formatCurrency, formatDate } from "@/lib/utils";
+import {
+  AssetDataType,
+  cleanUpCurrencyString,
+  formatCurrency,
+  formatDate,
+} from "@/lib/utils";
 import {
   AccordionItem,
   AccordionTrigger,
@@ -35,11 +40,17 @@ export default function Step3(props: Step3Props) {
 
           // Format date as dd-mm-yyyy
 
+          console.log({
+            assetValue,
+            cleanedUp: assetValue.toString().replace(/[^0-9/$-]+/g, ""),
+            numbered: cleanUpCurrencyString(assetValue),
+          });
+
           assets.push({
             identifier: identifier.toString(),
             address: address.toString(),
-            assetValue: Number(assetValue.toString()),
-            date: formatDate(date as unknown as Date),
+            assetValue: cleanUpCurrencyString(assetValue),
+            date: formatDate(date as unknown as string | Date),
             identifierCellAddress: `='${masterSheet}'!B${index + 1}`,
             addressCellAddress: `='${masterSheet}'!C${index + 1}`,
             assetValueCellAddress: `='${masterSheet}'!E${index + 1}`,

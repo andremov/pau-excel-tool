@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { CellValue } from "read-excel-file";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -16,11 +17,30 @@ export type AssetDataType = {
   dateCellAddress: string;
 };
 
-export function formatDate(dateValue: Date): string {
-  const day = dateValue.getDate().toString().padStart(2, "0");
-  const month = (dateValue.getMonth() + 1).toString().padStart(2, "0");
-  const year = dateValue.getFullYear().toString();
-  return `${Number(day) + 1}-${month}-${year}`;
+export function formatDate(dateValue: string | Date): string {
+  if (typeof dateValue === "string") {
+    const parsedDate = new Date(dateValue);
+    if (isNaN(parsedDate.getTime())) {
+      return dateValue; // return original string if parsing fails
+    }
+    const day = parsedDate.getDate().toString().padStart(2, "0");
+    const month = (parsedDate.getMonth() + 1).toString().padStart(2, "0");
+    const year = parsedDate.getFullYear().toString();
+    return `${Number(day)}-${month}-${year}`;
+  } else {
+    const day = dateValue.getDate().toString().padStart(2, "0");
+    const month = (dateValue.getMonth() + 1).toString().padStart(2, "0");
+    const year = dateValue.getFullYear().toString();
+    return `${Number(day) + 1}-${month}-${year}`;
+  }
+}
+
+export function cleanUpCurrencyString(value: string | CellValue): number {
+  if (typeof value !== "string") {
+    value = value.toString();
+  }
+  const cleanedString = value.replace(/[^0-9.-]+/g, "");
+  return Number(cleanedString);
 }
 
 export function formatCurrency(value: number): string {
