@@ -6,6 +6,7 @@ import {
   SheetData,
   getSummarySheetColumns,
   formatDate,
+  cleanUpCurrencyString,
 } from "@/lib/utils";
 import {
   AccordionItem,
@@ -58,12 +59,12 @@ export default function Step5(props: Step4Props) {
             { value: colB ? colB.toString() : "" },
             { value: colC ? colC.toString() : "" },
             {
-              value: colD ? Number(colD.toString()) : 0,
+              value: colD ? cleanUpCurrencyString(colD) : 0,
               type: Number as never,
               format: "$ #,##0.00",
             },
             {
-              value: colE ? Number(colE.toString()) : 0,
+              value: colE ? cleanUpCurrencyString(colE) : 0,
               type: Number as never,
               format: "$ #,##0.00",
             },

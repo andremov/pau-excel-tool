@@ -38,14 +38,6 @@ export default function Step3(props: Step3Props) {
 
           if (!identifier) return;
 
-          // Format date as dd-mm-yyyy
-
-          console.log({
-            assetValue,
-            cleanedUp: assetValue.toString().replace(/[^0-9/$-]+/g, ""),
-            numbered: cleanUpCurrencyString(assetValue),
-          });
-
           assets.push({
             identifier: identifier.toString(),
             address: address.toString(),
