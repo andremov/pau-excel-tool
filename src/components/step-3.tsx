@@ -34,6 +34,7 @@ export default function Step3(props: Step3Props) {
         rows.forEach((row, index) => {
           if (index === 0) return; // skip header
 
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [_, identifier, address, __, assetValue, date] = row;
 
           if (!identifier) return;

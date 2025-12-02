@@ -223,6 +223,7 @@ export function generateSummaryData(asset: AssetDataType): SheetDataSummary {
   const currentMonth = new Date().getMonth() + 1;
   const currentYear = new Date().getFullYear();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, purchaseMonth, purchaseYear] = asset.date.split("-").map(Number);
 
   const monthsUsed =

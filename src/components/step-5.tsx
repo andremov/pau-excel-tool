@@ -18,14 +18,14 @@ import { Button } from "./ui/button";
 import writeXlsxFile from "write-excel-file";
 import readXlsxFile from "read-excel-file";
 
-interface Step4Props {
+interface Step5Props {
   sheetsData: CompleteSheetData[] | null;
   masterSheet: string | undefined;
   accordionValue: string;
   file: File | null;
 }
 
-export default function Step5(props: Step4Props) {
+export default function Step5(props: Step5Props) {
   const { sheetsData, accordionValue, file, masterSheet } = props;
   const [fileCoverSheetData, setFileCoverSheetData] =
     useState<SheetData | null>(null);
@@ -38,7 +38,7 @@ export default function Step5(props: Step4Props) {
     readXlsxFile(file, { sheet: masterSheet, dateFormat: "dd-mm-yyyy" }).then(
       (rows) => {
         rows.forEach((row, idx) => {
-          const [colA, colB, colC, colD, colE, colF, colG, colH, colI] = row;
+          const [colA, colB, colC, colD, colE, colF, colG, colH] = row;
 
           if (idx === 0) {
             draftCoverSheetData.push([
