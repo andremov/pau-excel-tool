@@ -154,7 +154,10 @@ export function generateFirstSheetTable(asset: AssetDataType): SheetData {
   ];
 }
 
-export function generateSecondSheetTable(asset: AssetDataType): SheetData {
+export function generateSecondSheetTable(
+  asset: AssetDataType,
+  targetDate: Date = new Date()
+): SheetData {
   const firstRow = [
     { value: "Depreciación por linea recta" },
     { value: "" },
@@ -175,21 +178,22 @@ export function generateSecondSheetTable(asset: AssetDataType): SheetData {
     { value: "Valor neto en libros" },
   ];
 
-  const currentMonth = new Date().getMonth() + 1;
-  const currentYear = new Date().getFullYear();
+  const currentMonth = targetDate.getMonth() + 1;
+  const currentYear = targetDate.getFullYear();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, purchaseMonth, purchaseYear] = asset.date.split("-").map(Number);
 
   const monthsUsed =
     (currentYear - purchaseYear) * 12 + (currentMonth - purchaseMonth);
 
-  const tableRows = Array.from({ length: monthsUsed }, (_, index) => {
+  const tableRows = Array.from({ length: monthsUsed + 1 }, (_, index) => {
     const month = ((purchaseMonth - 1 + index) % 12) + 1;
     const year = purchaseYear + Math.floor((purchaseMonth - 1 + index) / 12);
 
     return [
       {
-        value: new Date(`01-${month}-${year}`),
+        value: new Date(`${year}-${month}-01`),
         type: Date as never,
         format: "dd/mm/yyyy",
       },
@@ -214,14 +218,17 @@ export function generateSecondSheetTable(asset: AssetDataType): SheetData {
   return [firstRow, secondRow, thirdRow, ...tableRows];
 }
 
-export function generateSummaryData(asset: AssetDataType): SheetDataSummary {
+export function generateSummaryData(
+  asset: AssetDataType,
+  targetDate: Date = new Date()
+): SheetDataSummary {
   const cost = asset.assetValue;
   const salvage = asset.assetValue * 0.1;
   const life = 240;
   const sln = (cost - salvage) / life;
 
-  const currentMonth = new Date().getMonth() + 1;
-  const currentYear = new Date().getFullYear();
+  const currentMonth = targetDate.getMonth() + 1;
+  const currentYear = targetDate.getFullYear();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, purchaseMonth, purchaseYear] = asset.date.split("-").map(Number);
@@ -229,7 +236,7 @@ export function generateSummaryData(asset: AssetDataType): SheetDataSummary {
   const monthsUsed =
     (currentYear - purchaseYear) * 12 + (currentMonth - purchaseMonth);
 
-  const accumulatedDepreciation = sln * monthsUsed;
+  const accumulatedDepreciation = sln * (monthsUsed + 1);
   const bookValue = cost - accumulatedDepreciation;
 
   return {
